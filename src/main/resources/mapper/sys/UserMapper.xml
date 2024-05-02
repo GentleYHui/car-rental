@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yhui.sys.mapper.UserMapper">
+    <!--用户查询-->
+    <sql id="Base_Colum_list">
+        userid,loginname,identity,realname,sex,address,phone,pwd,position,type,available
+    </sql>
+    <resultMap id="BaseResultMap" type="com.yhui.sys.domain.User">
+        <id column="userid" jdbcType="INTEGER" property="userId"></id>
+        <result column="loginname" jdbcType="VARCHAR" property="loginname"></result>
+        <result column="identity" jdbcType="VARCHAR" property="identity"></result>
+        <result column="realname" jdbcType="VARCHAR" property="realname"></result>
+        <result column="sex" jdbcType="INTEGER" property="sex"></result>
+        <result column="address" jdbcType="VARCHAR" property="address"></result>
+        <result column="phone" jdbcType="VARCHAR" property="phone"></result>
+        <result column="pwd" jdbcType="VARCHAR" property="pwd"></result>
+        <result column="position" jdbcType="VARCHAR" property="position"></result>
+        <result column="type" javaType="INTEGER" property="type"></result>
+        <result column="available" javaType="INTEGER" property="available"></result>
+    </resultMap>
+    <select id="login" resultMap="BaseResultMap">
+        select <include refid="Base_Colum_list"/> from sys_user
+        where loginname = #{loginname} and pwd=#{pwd}
+    </select>
+
+    
+</mapper>

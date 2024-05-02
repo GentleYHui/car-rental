@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yhui.bus.mapper.CarMapper">
+    <!--查询车辆信息-->
+    <sql id="Base_Colum_list">
+        carnumber,cartype,color,price,rentprice,deposit,isrenting,description,carimg,createtime
+    </sql>
+    <resultMap id="BaseResultMap" type="com.yhui.bus.domain.Car">
+        <id column="carnumber" jdbcType="VARCHAR" property="carnumber"></id>
+        <result column="cartype" jdbcType="VARCHAR" property="cartype"></result>
+        <result column="price" jdbcType="DOUBLE" property="price"></result>
+        <result column="color" jdbcType="VARCHAR" property="color"></result>
+        <result column="rentprice" jdbcType="DOUBLE" property="rentprice"></result>
+        <result column="deposit" jdbcType="DOUBLE" property="deposit"></result>
+        <result column="isrenting" jdbcType="INTEGER" property="isrenting"></result>
+        <result column="description" jdbcType="VARCHAR" property="description"></result>
+        <result column="carimg" jdbcType="VARCHAR" property="carimg"></result>
+        <result column="createtime" jdbcType="TIMESTAMP" property="createtime"></result>
+
+    </resultMap>
+    <select id="queryAllCar" resultMap="BaseResultMap">
+        select <include refid="Base_Colum_list"/> from bus_car
+        <where>
+            <if test="carnumber != null and carnumber != ''">
+                and carnumber like concat("%", #{carnumber}, "%")
+            </if>
+            <if test="cartype != null and cartype != ''">
+                and cartype like concat("%", #{cartype}, "%")
+            </if>
+            <if test="color != null and color != ''">
+                and color like concat("%", #{color}, "%")
+            </if>
+            <if test="description != null and description != ''">
+                and description like concat("%", #{description}, "%")
+            </if>
+
+            <if test="isrenting != null">
+                and isrenting = #{isrenting}
+            </if>
+        </where>
+            order by createtime desc
+    </select>
+
+    <!--添加车辆信息-->
+    <insert id="insertSelective" parameterType="com.yhui.bus.domain.Car">
+        insert into bus_car
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="carnumber != null">
+                carnumber,
+            </if>
+            <if test="cartype != null">
+                cartype,
+            </if>
+            <if test="color != null">
+                color,
+            </if>
+            <if test="price != null">
+                price,
+            </if>
+            <if test="rentprice != null">
+                rentprice,
+            </if>
+            <if test="deposit != null">
+                deposit,
+            </if>
+            <if test="isrenting != null">
+                isrenting,
+            </if>
+            <if test="description != null">
+                description,
+            </if>
+            <if test="carimg != null">
+                carimg,
+            </if>
+            <if test="createtime != null">
+                createtime,
+            </if>
+        </trim>
+
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="carnumber != null">
+                #{carnumber, jdbcType=VARCHAR},
+            </if>
+            <if test="cartype != null">
+                #{cartype,jdbcType=VARCHAR},
+            </if>
+            <if test="color != null">
+                #{color,jdbcType=VARCHAR},
+            </if>
+            <if test="price != null">
+                #{price,jdbcType=DOUBLE},
+            </if>
+            <if test="rentprice != null">
+                #{rentprice,jdbcType=DOUBLE},
+            </if>
+            <if test="deposit != null">
+                #{deposit,jdbcType=DOUBLE},
+            </if>
+            <if test="isrenting != null">
+                #{isrenting,jdbcType=INTEGER},
+            </if>
+            <if test="description != null">
+                #{description,jdbcType=VARCHAR},
+            </if>
+            <if test="carimg != null">
+                #{carimg,jdbcType=VARCHAR},
+            </if>
+            <if test="createtime != null">
+                #{createtime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <!--根据主键查询车辆-->
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select <include refid="Base_Colum_list"/>    from bus_car
+        where carnumber = #{carnumber , jdbcType=VARCHAR}
+    </select>
+
+    <!--根据主键删除车辆信息-->
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+        delete from bus_car where carnumber = #{carnumber , jdbcType=VARCHAR}
+    </delete>
+
+    <!--根据主键更新车辆信息-->
+    <update id="updateByPrimaryKeySelective" parameterType="com.yhui.bus.domain.Car">
+        update bus_car
+        <set>
+            <if test="cartype != null">
+                cartype = #{cartype,jdbcType=VARCHAR},
+            </if>
+            <if test="color != null">
+                color = #{color,jdbcType=VARCHAR},
+            </if>
+            <if test="price != null">
+                price = #{price,jdbcType=DOUBLE},
+            </if>
+            <if test="rentprice != null">
+                rentprice = #{rentprice,jdbcType=DOUBLE},
+            </if>
+            <if test="deposit != null">
+                deposit = #{deposit,jdbcType=DOUBLE},
+            </if>
+            <if test="isrenting != null">
+                isrenting = #{isrenting,jdbcType=INTEGER},
+            </if>
+            <if test="description != null">
+                description = #{description,jdbcType=VARCHAR},
+            </if>
+            <if test="carimg != null">
+                carimg = #{carimg,jdbcType=VARCHAR},
+            </if>
+            <if test="createtime != null">
+                createtime = #{createtime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where carnumber = #{carnumber ,jdbcType=VARCHAR}
+    </update>
+</mapper>
